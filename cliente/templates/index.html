@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Consultar</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      background-color: #300303;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    .container-centered {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: calc(100vh - 3.5rem);
+    }
+
+    .container-fluid {
+      max-width: 330px;
+      align-items: center;
+      background-color: #491111;
+      padding: 15px;
+      margin: 15px;
+      border-radius: 10px;
+      box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
+    }
+    .btn{
+        border-radius: 10px!important;
+        margin-bottom: 12px;
+        margin-top: 25px;
+        background-color: #000000;
+        color: #ffffff;
+        font-family: 'Jost', sans-serif;
+    }
+
+    .btn:hover{
+      background-color: #000000;
+      color: #ffffff;
+    }
+
+    .h2{
+        color:#ffffff;
+        font-family: 'Jost', sans-serif;
+        text-align: center;
+        font-size: 32px;
+    }
+
+    footer {
+      text-align: center;
+      color: white;
+      position: fixed;
+      bottom: 25px;
+      width: 100%;
+      padding: 15px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-black">
+    <div class="container-md">
+      <a class="navbar-brand text-white" href="{% url 'index' %}" style="font-family: Playfair Display, serif; font-optical-sizing: auto; font-weight: 400; font-style: normal;">Sabor das Gerais</a>        
+    </div>
+  </nav>
+  
+  <div class="container-centered mx-auto">
+    <div class="container-fluid" style="padding: 30px 15px; margin: 30px 15px;">
+      <h1 class="h2 mb-2 fw-normal">O que você deseja fazer?</h1>
+      <div class="w-100 m-auto py-4 btn-group-vertical">
+        <a href="{% url 'realizar-reserva' %}" type="button" class="btn">Reservar</a>
+        <a href="{% url 'reservas-clientes' %}" type="button" class="btn">Ver minhas reservas</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  
+  
+  <footer>
+    Site criado por Waves © 2024 - Alguns direitos reservados
+  </footer>
+</body>
+</html>

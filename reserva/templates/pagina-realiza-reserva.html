@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="container-centered mx-auto">
+    <div class="container-fluid">
+      <form method="post" action="">
+        {% csrf_token %}
+
+        <input type="hidden" id="cliente" name="cliente" value="{{ id }}">
+        <div class="date-container">
+          <label for="dateInput" class="form-label">Data:</label>
+          <input type="date" id="data" name="data" class="form-control">
+        </div>
+
+        <div class="table-layout" id="tableLayout">
+        </div>
+        <input type="text" id="mesa" name="mesa" placeholder="Insira o número da mesa">
+
+        <input type="submit" class="btn cor-botao-reserva mt-4" value="Reserva">
+
+      </div>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    Site criado por Waves © 2024 - Alguns direitos reservados
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tableLayout = document.getElementById('tableLayout');
+        const mesaEscolhidaInput = document.getElementById('mesa');
+
+        // Recebe a lista de reservas do backend e converte para JSON
+        const reservas = JSON.parse('{{ reservas|escapejs }}');
+
+        const mesas = 9; // Total de mesas
+        const inputData = document.getElementById('data');
+
+        inputData.addEventListener('change', function() {
+            const selectedDate = inputData.value;
+            tableLayout.innerHTML = ''; // Limpa o layout das mesas
+
+            for (let i = 1; i <= mesas; i++) {
+                const mesaReservada = reservas.some(reserva => reserva.mesa == i && reserva.data === selectedDate);
+
+                const tableDiv = document.createElement('div');
+                tableDiv.classList.add('table');
+                tableDiv.dataset.mesa = i;
+                tableDiv.textContent = i;
+
+                if (mesaReservada) {
+                    tableDiv.classList.add('reserved');
+                } else {
+                    tableDiv.classList.add('available');
+                    tableDiv.addEventListener('click', function() {
+                        mesaEscolhidaInput.value = i;
+
+                        // Remover a seleção anterior
+                        document.querySelectorAll('.table.available').forEach(function(mesa) {
+                            mesa.classList.remove('selected');
+                        });
+
+                        // Adicionar classe de seleção à mesa atual
+                        tableDiv.classList.add('selected');
+                    });
+                }
+
+                tableLayout.appendChild(tableDiv);
+            }
+        });
+    });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const horarioInicioSelect = document.getElementById('horario_inicio');
+    const horarioFimSelect = document.getElementById('horario_fim');
+
+    // Define as opções para o horário de início
+    const horariosInicio = [
+        '08:00', '09:00', '10:00', '11:00', '12:00',
+        '13:00', '14:00', '15:00', '16:00', '17:00',
+        '18:00', '19:00', '20:00', '21:00'
+    ];
+
+    // Preenche o select de horário de início
+    horariosInicio.forEach(horario => {
+        const option = document.createElement('option');
+        option.value = horario;
+        option.textContent = horario;
+        horarioInicioSelect.appendChild(option);
+    });
+
+    // Evento para ajustar o horário de fim com base na seleção de início
+    horarioInicioSelect.addEventListener('change', function() {
+        horarioFimSelect.innerHTML = '<option value="">Selecione o horário de fim</option>'; // Limpa as opções anteriores
+        const selectedInicio = horarioInicioSelect.value;
+
+        if (selectedInicio) {
+            const [hora, minuto] = selectedInicio.split(':').map(Number);
+            const selectedDate = new Date();
+            selectedDate.setHours(hora + 2, minuto, 0, 0); // Adiciona 2 horas ao horário de início
+
+            // Formata a hora final no formato HH:MM
+            const formattedHoraFim = selectedDate.toTimeString().substring(0, 5);
+
+            // Cria a opção e adiciona ao select de horário fim
+            const option = document.createElement('option');
+            option.value = formattedHoraFim;
+            option.textContent = formattedHoraFim;
+            horarioFimSelect.appendChild(option);
+
+            // Define automaticamente o horário fim e remove o atributo disabled
+            horarioFimSelect.value = formattedHoraFim;
+            horarioFimSelect.disabled = false;
+        } else {
+            horarioFimSelect.disabled = false;
+        }
+    });
+});
+
+</script>
+  
+  <style>
+    .table.selected {
+      border: 2px solid #000; /* Adiciona uma borda para indicar a seleção */
+    }
+  </style>
+
+{% endblock %}
+
+  
